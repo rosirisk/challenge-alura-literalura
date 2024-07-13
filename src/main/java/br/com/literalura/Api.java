@@ -33,6 +33,7 @@ public class Api {
                 .uri(uri)
                 .build();
 
+        System.out.println("\nIniciando a busca aguarde...\n");
         HttpResponse<String> httpResponse = HttpClient
                 .newBuilder()
                 .followRedirects(HttpClient.Redirect.NORMAL)

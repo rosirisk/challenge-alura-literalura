@@ -20,36 +20,35 @@ import java.util.stream.Collectors;
 public class Book {
 
     @Column
-
     @Id
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String title;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="listOfSubjects")
     private List<String> subjects;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "author_books",
             joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "id")}
     )
     private List<Author> authors;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "translator_books",
             joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "translator_id", referencedColumnName = "id")}
     )
     private List<Translator> translators;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="listOfBookshelves")
     private List<String> bookshelves;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="listOfLanguages")
     private List<String> languages;
 
@@ -59,12 +58,21 @@ public class Book {
     @Column
     private String media_type;
 
-    @OneToMany(targetEntity = Formats.class, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToMany(targetEntity = Formats.class, cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Formats> formats;
 
     @Column
     private long download_count;
 
+    @Override
+    public String toString() {
+        return "{" +
+                "titulo='" + title + '\'' +
+                ", autores=" + authors +
+                ", idiomas=" + languages +
+                ", numero de downloads=" + download_count +
+                "}\n";
+    }
 
     public Book(BookRecord record) {
         List<PersonRecord> authors = record.authors();

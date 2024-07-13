@@ -21,21 +21,30 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column
-    private long birth_year;
+    private long birthYear;
 
     @Column
-    private long death_year;
+    private long deathYear;
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 
     public Author(PersonRecord record) {
         this.name =record.name();
-        this.birth_year =record.birth_year();
-        this.death_year =record.death_year();
+        this.birthYear =record.birth_year();
+        this.deathYear =record.death_year();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "nome='" + name + '\'' +
+                ",ano de nascimento=" + birthYear +
+                ",ano de falecimento=" + deathYear +
+                "}\n";
     }
 }
