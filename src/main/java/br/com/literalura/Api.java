@@ -1,7 +1,7 @@
 package br.com.literalura;
 
 
-import br.com.literalura.model.Book;
+import br.com.literalura.model.BookRecord;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +22,7 @@ public class Api {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public List<Book> requestData(String author, String title) throws IOException, InterruptedException {
+    public List<BookRecord> requestData(String author, String title) throws IOException, InterruptedException {
 
         URI uri = UriComponentsBuilder
                 .fromUriString(URL_BASE)
@@ -47,10 +47,10 @@ public class Api {
         JsonNode jsonNode = mapper.readTree(httpResponse.body());
         JsonNode results = jsonNode.findValue("results");
 
-        List<Book> books = mapper.convertValue(results, new TypeReference<List<Book>>() {
+        List<BookRecord> bookRecords = mapper.convertValue(results, new TypeReference<List<BookRecord>>() {
         });
 
-        return books;
+        return bookRecords;
     }
 
 }
